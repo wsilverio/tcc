@@ -282,3 +282,11 @@ Project\ Outputs*/
 
 # End of https://www.gitignore.io/api/altium
 
+### Proteus ###
+*.workspace
+*.pdsbak
+*.rte
+*.DO
+*.EDF
+*.sts
+*.log
