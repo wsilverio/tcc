@@ -4,6 +4,7 @@
 - [ ] Leiaute Registradores
 - [ ] Esquemático Super
 - [ ] Leiaute Super
+- [ ] Comprar NodeMcu
 - [ ] Compra BOM
 - [ ] Produção PCIs
 - [ ] Montagem Placas
