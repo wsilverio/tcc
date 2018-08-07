@@ -8,6 +8,8 @@
 
 - [tcc/changelog.md](changelog.md)
   - Registro de alterações
+- [tcc/todo.md](todo.md)
+  - Lista de tarefas
 - [tcc/hardware](hardware/)
   - Arquivos de esquemático
   - Arquivos de leiaute e de produção (gerber)
@@ -18,6 +20,9 @@
   - Códigos-fonte
   - Bibliotecas
   - Scripts
+- [tcc/cad](cad/)
+  - Arquivos CAD
+  - Documentação da mecânica
 - [tcc/documentos](documentos/)
   - Relatórios
   - Burocracia
