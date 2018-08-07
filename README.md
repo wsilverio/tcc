@@ -36,6 +36,3 @@ Universidade Federal do Paraná, Setor de Tecnologia, Departamento de Engenharia
 Autores e Autora: Wendeurick Emerick Silverio, James Alexandre Baraniuk e Maristela Mitsuko Ono.
 
 Curitiba 2018
-
-
-
