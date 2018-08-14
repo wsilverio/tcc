@@ -4,3 +4,5 @@ Version=1.0
 ProjectPath=registradores.PrjPcb
 [Project2]
 ProjectPath=super.PrjPcb
+[Project3]
+ProjectPath=..\..\..\plomoplomo-altium-lib\plomoplomo-lib.LibPkg
