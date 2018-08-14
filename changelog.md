@@ -12,3 +12,6 @@
     - controlador
 
 - Compra do NodeMcu (ESP8266 ESP-12E CH340G)
+
+##### 14/08/2017
+- Criação de componentes    
