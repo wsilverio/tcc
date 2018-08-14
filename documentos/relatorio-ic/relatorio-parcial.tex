@@ -1,0 +1,239 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[margin = 2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{listings}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{indentfirst}
+\usepackage{textcomp}
+\usepackage{pdfpages}
+\usepackage[backend=biber, sorting=none]{biblatex}
+\usepackage{helvet}
+\usepackage{palatino}
+
+\usepackage{caption}
+% \usepackage{floatrow}
+\usepackage[capposition=top]{floatrow}
+
+% aspas
+\usepackage{csquotes}
+\MakeOuterQuote{"}
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\bibliography{bibliografia.bib}
+
+%aspell --lang=pt_BR --master=pt_BR --mode=tex -c relatorio-parcial.tex
+
+\begin{document}
+
+  \begin{titlepage}
+    \begin{center}
+
+    \begin{minipage}[t]{0.25\textwidth}
+    \vspace{0pt}
+    \includegraphics[width=\textwidth]{img/ufpr.eps}
+    \end{minipage}
+    \begin{minipage}[t]{0.74\textwidth}
+    \vspace{0pt}
+    \begin{center}
+     {\footnotesize MINISTÉRIO DA EDUCAÇÃO
+
+     UNIVERSIDADE FEDERAL DO PARANÁ
+
+     PRÓ-REITORIA DE PESQUISA E PÓS-GRADUAÇÃO
+
+     COORDENADORIA DE INICIAÇÃO CIENTÍFICA E INTEGRAÇÃO ACADÊMICA
+
+    PROGRAMA DE INICIAÇÃO CIENTÍFICA E EM DESENVOLVIMENTO TECNOLÓGICO E INOVAÇÃO}
+
+
+    \end{center}
+    \end{minipage}\\[1.5cm]
+
+    {\Large {\textbf{Wendeurick Emerick Silverio}}}\\[1.5cm]
+    {\large {\textbf{RELATÓRIO PARCIAL}}}\\[1.5cm]
+    {\large {\textbf{INICIAÇÃO CIENTÍFICA:}}}\\
+    {PIBIC CNPq ( ), PIBIC CNPq Ações Afirmativas ( ), PIBIC UFPR TN ( ), PIBIC Fundação Araucária ( ), PIBIC Voluntária (x), PIBIC Ações Afirmativas Voluntária ( ) ou PIBIC EM.}\\[1cm]
+    {\large {01/08/2016 a 31/12/2016}}\\[1.5cm]
+
+    {\Large \textbf{Desenvolvimento de Matriz de LED Interativa em Plataforma de Hardware Livre}}\\[1cm]
+
+
+      \hspace{.45\textwidth} %posiciona a minipage
+       \begin{minipage}{.5\textwidth}
+       Relatório apresentado à Coordenadoria de Iniciação Científica e Integração Acadêmica da Universidade Federal do Paraná por ocasião da conclusão das atividades de Iniciação Científica - Edital 2016/2017.
+      \end{minipage}
+      \\[1.5cm]
+
+      \begin{flushleft}
+
+      \textbf{Orientador: James Alexandre Baraniuk / Departamento de Engenharia Elétrica}\\[0.5cm]
+      \raggedright \textbf{Projeto de pesquisa: Luz, Ciência e Emoção: Exposição Interativa para Crianças / 2016019080}\\[0.7cm]
+
+      \end{flushleft}
+
+      {\textbf{CURITIBA}}\\
+      {2017}
+
+
+    \end{center}
+  \end{titlepage}
+
+  \tableofcontents
+
+  \clearpage
+  \section{RESUMO}
+  Inspirada na proclamação do Ano Internacional da Luz pela Oganização das Nações Unidas, a exposição interativa "Luz, Ciência e Emoção" \ propõe mais de vinte experimentos tendo a luz como tema principal. O seguinte trabalho apresenta o desenvolvimento de um desses experimentos.
+  
+  Assim, o relatório parcial aborda a elaboração e a prototipagem do circuito da matriz de LED interativa chamada "Mesa de Bolinhas", proposta pela arquiteta Dra. Maristela Mitsuko Ono.
+
+  \clearpage
+  \section{INTRODUÇÃO}
+ 
+  A luz exerce um papel essencial no nosso cotidiano e está presente das mais diversas formas: iluminação, medicina, pesquisas científicas, geração de energia, telecomunicações, educação, arte, cultura e etc. Em 2013, a Assembleia Geral das Nações Unidas proclamou o ano de 2015 como o Ano Internacional da Luz e das Tecnologias Baseadas na Luz \cite{resolucao-onu}, a fim de reconhecer tal importância para a vida dos cidadãos e para o desenvolvimento futuro da sociedade mundial. No ano da celebração, a UNESCO promoveu uma série de eventos por vários países \cite{eventos-unesco}, com o intuito de destacar que o aumento da consciência mundial e o fortalecimento do ensino da ciência e das tecnologias da luz são essenciais para abordar os desafios futuros e atuais, tais como o desenvolvimento sustentável, a energia e as comunicações, assim como para melhorar a qualidade de vida dos países menos desenvolvidos e dos em desenvolvimento.
+  
+  Baseada em tal iniciativa, a exposição "Luz, Ciência e Emoção" traz experimentos envolvendo os conceitos de luz trabalhados nos ensinos pré-escolar e fundamental, cada um com seu grau de impressão aos sentidos. A exposição proporciona uma experiência tangível-visual impactante aos observadores, causando deslumbramento e entusiasmo através da arte e interação.
+  
+  Um dos experimentos que forma parte da área artística da exposição é a "Mesa de Bolinhas", uma matriz de LED (Diodo Emissor de Luz, sigla em inglê) interativa, elaborada pela arquiteta Dra. Maristela Mitsuko Ono. A mesa, de 1m de diâmetro, é composta por mais de 100 bolinhas de ping-pong, cada uma correspondente a um par LED-sensor reflexivo. Ela permite que o visitante "pinte com luz" ao passar a mão sobre a mesa. A vista superior do projeto é apresentada na Figura \ref{fig:mesa-sup}.
+  	
+  \begin{figure}[!h]
+    \caption{Vista superior da mesa}
+    \label{fig:mesa-sup}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/mesa-cad.png}
+    \floatfoot{Fonte: (MITSUKO, 2016)}
+  \end{figure}	
+	
+  Partindo do pressuposto que a instalação pode ser montada em outras exposições e que serão fornecidos materiais de apoio, tanto aos professores quanto aos alunos, de modo que possam realizar experimentos similares em suas escolas, foi optado por escrever seu \emph{firmware} na linguagem de programação \emph{Wiring} (\emph{Arduino}) \cite{arduinocc}, plataforma aberta criada para abstrair as complicações da eletrônica embarcada a fim de expandir a computação física para as áreas além da engenharia, permitindo, assim, que pessoas de áreas não-técnicas possam focar em seus objetivos \cite{wiring-tese}.
+  
+%   FALAR SOBRE: no Museu Municipal de Arte (MuMA), em Curitiba, Paraná.
+    
+  \clearpage
+  \section{MATERIAIS E MÉTODOS}
+  
+  A primeira etapa foi testar o conceito de mapeamento, tanto do LED quanto do sensor reflexivo. Para este, utilizou-se o sensor TCRT5000 - par LED infravermelho e fototransistor - em conjunto com o registrador de deslocamento 74HC165 (protocolo SPI - \emph{Serial Peripheral Interface}), e para aquele, o LED WS2812 - LED RGB (8 bits por cor) endereçável (protocolo NRZ - \emph{non return to zero}). A Figura \ref{fig:primeiro-prototipo} apresenta o protótipo deste conceito, montado em placa perfurada, com 6 pares LED-sensor reflexivo.
+  
+  \begin{figure}[!h]
+    \caption{Primeiro protótipo - teste do conceito}
+    \label{fig:primeiro-prototipo}
+      \begin{subfigure}
+        \centering
+        \includegraphics[width=.4\linewidth]{img/p-proto-luz.jpg}
+      \end{subfigure}
+      \begin{subfigure}
+        \centering
+        \includegraphics[width=.4\linewidth]{img/p-proto-circ.jpg}
+      \end{subfigure}    
+    \floatfoot{Fonte: (O AUTOR, 2016)}
+  \end{figure}
+  
+  Validado o conceito do mapeamento, elaborou-se a distribuição dos circuitos. Optou-se por fazê-lo de forma modular: os 118 sensores reflexivos da seção matriz foram separados em 17 colunas verticais em blocos de 2 e 3, cada uma a ser controlada por um registrador de deslocamento de 8 bits. A Figura \ref{fig:mesa-placas} apresenta as 4 combinações utilizadas, separadas por cor, descritas na lista a seguir. Essas configurações são importantes pois definem a quantidade de bits a serem usados pelo registrador de deslocamento referente a tal coluna.
+  
+  \begin{itemize}
+    \item Configuração "3/2" (verde): 1 bloco de 3 pares, 1 bloco de 2 pares
+      \begin{itemize}
+          \item bloco "3": bits\{0, 1, 2\}
+          \item bloco "2": bits\{3, 4\}
+      \end{itemize}
+    \item Configuração "3/3" (amarela): 2 blocos de 3 pares
+      \begin{itemize}
+          \item bloco "3": bits\{0, 1, 2\}
+          \item bloco "3": bits\{3, 4, 5\}
+      \end{itemize}    
+    \item Configuração "3/2/2" (azul): 1 bloco de 3 pares, 2 blocos de 2 pares
+      \begin{itemize}
+          \item bloco "3": bits\{0, 1, 2\}
+          \item bloco "2": bits\{3, 4\}
+          \item bloco "2": bits\{5, 6\}
+      \end{itemize}    
+    \item Configuração "3/3/2" (violeta): 2 blocos de 3 pares, 1 bloco de 2 pares
+      \begin{itemize}
+          \item bloco "3": bits\{0, 1, 2\}
+          \item bloco "3": bits\{3, 4, 5\}
+          \item bloco "2": bits\{6, 7\}
+      \end{itemize}
+  \end{itemize}
+   
+  \begin{figure}[!h]
+    \caption{Agrupamento dos blocos}
+    \label{fig:mesa-placas}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/mesa-placas.png}
+    \floatfoot{Fonte: Adaptado (MITSUKO, 2016)}
+  \end{figure}  
+	
+  \clearpage	
+	
+  De maneira artesanal, foram feitas placas de circuito impresso para testar esse conceito modular. As Figuras \ref{fig:mesa-blocos}, \ref{fig:mesa-protoboard} e \ref{fig:mesa-conexao} apresentam os protótipos.
+   
+  \begin{figure}[!ht]
+    \caption{Protótipo dos blocos}
+    \label{fig:mesa-blocos}
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/mesa-blocos.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}  
+   
+  \begin{figure}[!ht]
+    \caption{Teste dos blocos}
+    \label{fig:mesa-protoboard}
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/mesa-protoboard.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}  
+  
+  \clearpage
+  
+  \begin{figure}[!ht]
+    \caption{Conexão entre os blocos}
+    \label{fig:mesa-conexao}
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/mesa-conexao.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}  
+  
+  Através de \emph{jumpers} seletores, elege-se a configuração descrita na lista anterior. Assim, o sinal do sensor pode ser direcionado à entrada do bit desejado no registrador de deslocamento.
+   
+  \begin{figure}[!h]
+    \caption{\emph{Jumpers} seletores}
+    \label{fig:mesa-jumpers}
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/mesa-jumpers.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}    
+  
+  \clearpage
+  
+  Validados esses conceitos, o projeto foi enviado a uma empresa de confecção de placas de circuito impresso. Ao todo, são 23 placas de 2 pares e 24 de 3 pares. As Figuras \ref{fig:bloco-2} e \ref{fig:bloco-3} apresentam as placas confeccionadas pela empresa.
+   
+  \begin{figure}[!h]
+    \caption{Duas faces da placa de 2 pares}
+    \label{fig:bloco-2}
+    \centering
+    \includegraphics[width=0.95\linewidth]{img/bloco-2.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}
+    
+  \begin{figure}[!h]
+    \caption{Duas faces da placa de 3 pares}
+    \label{fig:bloco-3}
+    \centering
+    \includegraphics[width=0.95\linewidth]{img/bloco-3.jpg}
+    \floatfoot{Fonte: (O AUTOR, 2017)}
+  \end{figure}
+  
+  \clearpage
+  \section{CONCLUSÕES/CONSIDERAÇÕES FINAIS}
+  
+  Os conceitos da seção matriz foram validados e suas placas foram produzidas. As próximas etapas são a montagem dos componentes dessas placas, a elaboração e montagem do circuito da seção controle e o \emph{firmware} do projeto.
+  
+  \clearpage
+  \section{REFERÊNCIAS}
+  \printbibliography
+
+\end{document}
