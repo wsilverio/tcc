@@ -10,3 +10,5 @@
   - super
     - seletor de cor
     - controlador
+
+- Compra do NodeMcu (ESP8266 ESP-12E CH340G)
