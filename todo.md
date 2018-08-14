@@ -1,14 +1,17 @@
 #### Lista de Tarefas
 
-- [ ] Esquemático Registradores
-- [ ] Leiaute Registradores
-- [ ] Esquemático Super
-- [ ] Leiaute Super
 - [x] Comprar NodeMcu
+- [ ] Esquemático Registradores
+- [ ] Esquemático Super
 - [ ] Compra BOM
-- [ ] Produção PCIs
-- [ ] Montagem Placas
-- [ ] Código Debounce
+- [ ] Conferência Footprints
+- [ ] Leiaute Registradores
+- [ ] Leiaute Super
+- [ ] Produção PCI Registradores
+- [ ] Produção PCI Super
+- [ ] Montagem Registradores
+- [ ] Montagem Super
+- [ ] Código Debounce*
 - [ ] Código Main Machine
 - [ ] Código ArtNet
 - [ ] Integração Mecânica
