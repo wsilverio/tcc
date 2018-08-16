@@ -14,4 +14,11 @@
 - Compra do NodeMcu (ESP8266 ESP-12E CH340G)
 
 ##### 14/08/2017
-- Criação de componentes    
+- Criação de componentes
+
+##### 15/08/2017
+- Reunião 1
+  - TODO: tópicos reunião
+
+##### 16/08/2017
+- Criação de componentes
