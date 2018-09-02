@@ -1,7 +1,7 @@
 #### Lista de Tarefas
 
 - [x] Comprar NodeMcu
-- [ ] Esquemático Registradores
+- [x] Esquemático Registradores
 - [ ] Esquemático Super
 - [ ] Compra BOM
 - [ ] Conferência Footprints
@@ -10,6 +10,7 @@
 - [ ] Produção PCI Registradores
 - [ ] Produção PCI Super
 - [ ] Montagem Registradores
+- [ ] Soldar resistores de 0R da última placa de cada coluna (entradas flutuantes)
 - [ ] Montagem Super
 - [ ] Código Debounce*
 - [ ] Código Main Machine
