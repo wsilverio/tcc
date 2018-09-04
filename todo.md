@@ -3,10 +3,13 @@
 - [x] Comprar NodeMcu
 - [x] Esquemático Registradores
 - [ ] Esquemático Super
-- [ ] Compra BOM
+- [ ] Compra BOM Registradores
+- [ ] Compra BOM Super
 - [ ] Conferência Footprints
-- [ ] Leiaute Registradores
+- [x] Leiaute Registradores
 - [ ] Leiaute Super
+- [x] Conferência Netlist Registradores
+- [ ] Conferência Netlist Super
 - [ ] Produção PCI Registradores
 - [ ] Produção PCI Super
 - [ ] Montagem Registradores
