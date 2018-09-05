@@ -385,3 +385,4 @@ eagle.epf
 *.sts
 *.log
 hardware/registradores/registradores.PrjPcbStructure
+hardware/registradores/registradores.Dat
