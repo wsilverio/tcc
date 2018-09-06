@@ -1,0 +1,17 @@
+CAMtasticDXP Drill Report
+Serial Number:0000-00-00000
+Drill File: C:\Users\blnv\workspace\tcc\hardware\registradores\gerber\cam.drl
+Format: 2.4
+Units: English (Inch)
+Step & Repeat Codes Used: NO
+
+
+TOOL		SIZE		COUNT
+====		======		=====
+
+ 1 		0.0280		145
+ 2 		0.0315		11
+ 3 		0.0394		12
+ 4 		0.0400		126
+ 5 		0.0760		6
+ 6 		0.1969		2
