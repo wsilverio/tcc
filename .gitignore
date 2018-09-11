@@ -386,3 +386,4 @@ eagle.epf
 *.log
 hardware/registradores/registradores.PrjPcbStructure
 hardware/registradores/registradores.Dat
+hardware/super/super.PrjPcbStructure
