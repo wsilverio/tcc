@@ -2,15 +2,15 @@
 
 - [x] Comprar NodeMcu
 - [x] Esquemático Registradores
-- [ ] Esquemático Super
-- [ ] Compra BOM Registradores
-- [ ] Compra BOM Super
+- [x] Esquemático Super
+- [x] Compra BOM Registradores
+- [x] Compra BOM Super
 - [ ] Conferência Footprints
 - [x] Leiaute Registradores
 - [ ] Leiaute Super
 - [x] Conferência Netlist Registradores
 - [ ] Conferência Netlist Super
-- [ ] Produção PCI Registradores
+- [x] Produção PCI Registradores
 - [ ] Produção PCI Super
 - [ ] Montagem Registradores
 - [ ] Soldar resistores de 0R da última placa de cada coluna (entradas flutuantes)
@@ -22,6 +22,6 @@
 - [ ] Testes
 - [ ] Relatório Atividade 1
 - [ ] Relatório Atividade 2
-- [ ] Apresentação Parcial
+- [x] Apresentação Parcial
 - [ ] Apresentação Final
 - [ ] Relatório Final

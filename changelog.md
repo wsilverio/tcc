@@ -40,24 +40,24 @@
 
   - Primeira banca
     - Introdução (contextualização)
-      - [ ] IC
-      - [ ] Ensino de ciências
-    - [ ] Problema
-    - [ ] Objetivo Geral
-    - [ ] Objetivos específicos
-    - [ ] Revisão teórica
-    - [ ] Diagrama das Etapas
-    - [ ] Diagrama do projeto
+      - [x] IC
+      - [x] Ensino de ciências
+    - [x] Problema
+    - [x] Objetivo Geral
+    - [x] Objetivos específicos
+    - [x] Revisão teórica
+    - [x] Diagrama das Etapas
+    - [x] Diagrama do projeto
       - Falar também sobre as tecnologias utilizadas
-    - [ ]Resultados esperados (o que será entregue)
-    - [ ] Relevância
+    - [x] Resultados esperados (o que será entregue)
+    - [x] Relevância
       - Curso
       - Pessoal
-    - [ ] Cronograma
-    - [ ] Referências
-    - [ ] Agradecimentos
+    - [x] Cronograma
+    - [x] Referências
+    - [x] Agradecimentos
 
-  Valorizar a complexidade, [ ] falar das placas que já foram feitas, colocar que já estamos numa etapa avançada e que é difícil acatar asmudanças sugeridas pela banca.
+  Valorizar a complexidade, [x] falar das placas que já foram feitas, colocar que já estamos numa etapa avançada e que é difícil acatar as mudanças sugeridas pela banca.
 
 
 ##### 16/08/2018
@@ -75,7 +75,7 @@
 ##### 27/08/2018
 - Reunião 3
   - [x] Remoção da proteção de entrada
-  - [ ] Compra BOM Registradores
+  - [x] Compra BOM Registradores
 
 ##### 03/09/2018
 - Finalização layout Registradores
