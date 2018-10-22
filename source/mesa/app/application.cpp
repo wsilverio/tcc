@@ -49,9 +49,6 @@ void init()
     // Inicialização dos sensores / SPI.
     init_sensors();
 
-    // Inicializa a máquina do debounce.
-    //debounce_init();
-
     // Inicializa a máquina dos LEDs.
     init_matrix();
 }

@@ -25,6 +25,9 @@
 // Os bits de "sensorMask" são o espelho dos sensores.
 // 128 sensores / 8 bits = 16 bytes
 #define MASK_SIZE (16)
+
+// Valor das entradas inválidas.
+#define INVALID_INPUT ((uint8_t)0xFF)
 /////////////////////////////////////////////////////////////////
 // macros
 /////////////////////////////////////////////////////////////////
@@ -69,9 +72,9 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             12, // input 12
             13, // input 13
             14, // input 14
-            0xFF, // input 15
-            0xFF, // input 16
-            0xFF, // input 17
+            INVALID_INPUT, // input 15
+            INVALID_INPUT, // input 16
+            INVALID_INPUT, // input 17
 
             // Coluna B
             15, // input 18
@@ -80,8 +83,8 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             18, // input 21
             19, // input 22
             20, // input 23
-            0xFF, // input 24
-            0xFF, // input 25
+            INVALID_INPUT, // input 24
+            INVALID_INPUT, // input 25
 
             // Coluna C
             21, // input 26
@@ -91,7 +94,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             25, // input 30
             26, // input 31
             27, // input 32
-            0xFF, // input 33
+            INVALID_INPUT, // input 33
 
             // Coluna D
             28, // input 34
@@ -101,7 +104,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             32, // input 38
             33, // input 39
             34, // input 40
-            0xFF, // input 41
+            INVALID_INPUT, // input 41
 
             // Coluna E
             35, // input 42
@@ -121,7 +124,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             47, // input 54
             48, // input 55
             49, // input 56
-            0xFF, // input 57
+            INVALID_INPUT, // input 57
 
             // Coluna G
             50, // input 58
@@ -141,7 +144,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             62, // input 70
             63, // input 71
             64, // input 72
-            0xFF, // input 73
+            INVALID_INPUT, // input 73
 
             // Coluna I
             65, // input 74
@@ -161,7 +164,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             77, // input 86
             78, // input 87
             79, // input 88
-            0xFF, // input 89
+            INVALID_INPUT, // input 89
 
             // Coluna K
             80, // input 90
@@ -181,7 +184,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             92, // input 102
             93, // input 103
             94, // input 104
-            0xFF, // input 105
+            INVALID_INPUT, // input 105
 
             // Coluna M
             95, // input 106
@@ -201,7 +204,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             107, // input 118
             108, // input 119
             109, // input 120
-            0xFF, // input 121
+            INVALID_INPUT, // input 121
 
             // Coluna O
             110, // input 122
@@ -211,7 +214,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             114, // input 126
             115, // input 127
             116, // input 128
-            0xFF, // input 129
+            INVALID_INPUT, // input 129
 
             // Coluna P
             117, // input 130
@@ -220,8 +223,8 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             120, // input 133
             121, // input 134
             122, // input 135
-            0xFF, // input 136
-            0xFF, // input 137
+            INVALID_INPUT, // input 136
+            INVALID_INPUT, // input 137
 
             // Coluna Q
             123, // input 138
@@ -229,9 +232,9 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
             125, // input 140
             126, // input 141
             127, // input 142
-            0xFF, // input 143
-            0xFF, // input 144
-            0xFF, // input 145
+            INVALID_INPUT, // input 143
+            INVALID_INPUT, // input 144
+            INVALID_INPUT // input 145
         };
 /////////////////////////////////////////////////////////////////
 // macros
@@ -241,7 +244,7 @@ const uint8_t map_input_in_sensor_mask[8*NUM_SHIFT_REGITERS+NUM_SINGLE_SENSORS] 
 // protótipo das funções privadas
 /////////////////////////////////////////////////////////////////
 void update_sensor_mask();
-void config_bit_in_sensor_mask();
+void config_bit_in_sensor_mask(uint8_t inputIndex, uint8_t value);
 
 /////////////////////////////////////////////////////////////////
 // implementação do módulo
@@ -259,44 +262,62 @@ void init_sensors()
     pinMode(GPIO_SPI_MOSI, OUTPUT);
     pinMode(GPIO_SPI_SCK, OUTPUT);
     pinMode(GPIO_SPI_SS, OUTPUT);
+    pinMode(GPIO_POWER_SENSOR, INPUT);
+    pinMode(GPIO_LEFTOVER_SENSOR, INPUT);
 
     // SS em nível alto.
     digitalWrite(GPIO_SPI_SS, HIGH);
 
     // Inicializa o periférico.
     SPI.begin();
+
+    // Limpa o buffer.
+    memset(sensorMask, 0x00, sizeof(sensorMask));
 }
 
 /**
- * @brief Seta o bit referente ao índice do sensor na mascara de sensores, se o valor de teste for verdadeiro.
- * @param mappedSensorIndex índice do sensor.
+ * @brief Atribui o bit referente ao índice do sensor na mascara de sensores.
+ * @param inputIndex índice da entrada.
  * @param value valor de teste.
  */
-void config_bit_in_sensor_mask(uint8_t mappedSensorIndex, bool value)
+void config_bit_in_sensor_mask(uint8_t inputIndex, uint8_t value)
 {
-    // Verifíca se o índice é válido.
-    if (mappedSensorIndex < NUM_SENSORS)
+    // Verifica se o índice é válido
+    if (inputIndex < sizeof(map_input_in_sensor_mask))
     {
         // Índice válido.
         /////////////////
 
-        // Remapeia o sensor.
-        uint8_t sensorMaskIndex = (uint8_t)(mappedSensorIndex / 8);
-        uint8_t bitPos = TABMASK_8[mappedSensorIndex % 8];
+        // Remapeia o índice.
+        inputIndex = map_input_in_sensor_mask[inputIndex];
 
-        // Testa se o valor é verdadeiro.
-        if (value)
+        // Verifica se é uma entrada válida.
+        if (inputIndex != INVALID_INPUT)
         {
-            // Valor verdadeiro. Sinaliza o bit.
-            ////////////////////////////////////
-            sensorMask[sensorMaskIndex] |= bitPos;
+            // O bit não deve ser ignorado.
+            ///////////////////////////////
+
+            // Mapeia o bit no buffer.
+            uint8_t maskIndex = (uint8_t)(inputIndex / 8);
+            uint8_t bitPos = TABMASK_8[inputIndex % 8];
+
+            assert(maskIndex < sizeof(sensorMask));
+
+            // Testa se o valor é verdadeiro.
+            if (value)
+            {
+                // Valor verdadeiro. Sinaliza o bit.
+                ////////////////////////////////////
+                sensorMask[maskIndex] |= bitPos;
+            }
+            else
+            {
+                // Valor falso. Limpa o bit.
+                ////////////////////////////
+                sensorMask[maskIndex] &= (uint8_t)(~bitPos);
+            }
         }
-        else
-        {
-            // Valor falso. Limpa o bit.
-            ////////////////////////////
-            sensorMask[sensorMaskIndex] &= (uint8_t)(~bitPos);
-        }
+
     }
 }
 
@@ -310,25 +331,14 @@ void update_sensor_mask()
     // Índice das entradas.
     uint8_t inputIndex = 0;
 
-    // Índices de mapeamento.
-    uint8_t sensorMaskIndex;
-    uint8_t bitPos;
-
-    // Limpa o buffer.
-    memset(sensorMask, 0x00, sizeof(sensorMask));
-
     /////////////////////////////////////////////////////////////////////////////
     // Leitura dos sensores conectados diretamente aos pinos do microcontrolador.
 
-    // Lê o primeiro sensor (power button).
-    map_index_and_bit_position(inputIndex++, &sensorMaskIndex, &bitPos);
+    // Atribui o valor do primeiro sensor (power button).
+    config_bit_in_sensor_mask(inputIndex++, digitalRead(GPIO_POWER_SENSOR));
 
-    sensorMask[0] = (uint8_t)(digitalRead(GPIO_POWER_SENSOR)?(TABMASK_8[0]):(0));
-    inputIndex++;
-
-    // Lê o segundo sensor (seletor de cor).
-    sensorMask[0] |= (uint8_t)(digitalRead(GPIO_LEFTOVER_SENSOR)?(TABMASK_8[0]):(0));
-    inputIndex++;
+    // Atribui o valor do segundo sensor (seletor de cor).
+    config_bit_in_sensor_mask(inputIndex++, digitalRead(GPIO_LEFTOVER_SENSOR));
 
     //////////////////////////////////////////////////////////////
     // Faz a leitura sequencial dos registradores de deslocamento.
@@ -336,14 +346,32 @@ void update_sensor_mask()
     // Configura o barramento.
     SPI.beginTransaction(SPISettings(SPI_FREQ_HZ, SPI_BYTE_ORDER, SPI_MODE));
 
-    // Faz os registradores capturarem o estado das portas.
+    // Faz os registradores capturarem o estado das portas (borda de descida).
     digitalWrite(GPIO_SPI_SS, LOW);
 
-    uint8_t collumns[1+NUM_SHIFT_REGITERS];
-    for (uint8_t bufferIndex = 0; bufferIndex < sizeof(collumns); ++bufferIndex)
+    // Percorre todos os registradores de deslocamento.
+    for (uint8_t bufferIndex = 0; bufferIndex < NUM_SHIFT_REGITERS; ++bufferIndex)
     {
-        collumns[bufferIndex] = SPI.read8();
+        // Lê o registrador atual.
+        uint8_t collumn = SPI.read8();
+
+        // Máscara dentro do registrador atual.
+        uint8_t fastMask = 0b00000001;
+
+        // Armazena seus bits na máscara dos sensores.
+        for (uint8_t i = 0; i < 8; ++i)
+        {
+            // Atribui o valor do sensor ao buffer.
+            config_bit_in_sensor_mask(inputIndex++, collumn & fastMask);
+
+            // Próximo bit.
+            fastMask <<= 1;
+        }
+
     }
+
+    // Libera os registradores.
+    digitalWrite(GPIO_SPI_SS, HIGH);
 
     // Encerra a recepção.
     SPI.endTransaction();
