@@ -308,7 +308,7 @@ void init_sensors()
     for (uint8_t id = 0; id < NUM_SENSORS; ++id)
     {
         // Zera o timer.
-        sensors[id].timer = 0;
+        sensors[id].timer = DEBOUNCE_TIMER_RELOAD_VALUE;
         // Captura inicializa os estados.
         sensors[id].level = get_level_from_sensor_mask(id);
         sensors[id].previousLevel = !sensors[id].level;
