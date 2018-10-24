@@ -79,7 +79,7 @@
 *   @param      arr array a ser consultado.
 *   @return     quantidade de elementos no array.
 */
-#define GET_ARRAY_LENGTH(arr) (sizeof(arr)/sizeof((arr[0])))
+#define GET_ARRAY_LENGTH(arr) (sizeof(arr)/sizeof(((arr)[0])))
 
 #ifndef NDEBUG
 #if defined(USE_FULL_ASSERT)
