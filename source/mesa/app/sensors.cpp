@@ -42,7 +42,6 @@
 typedef struct tagSENSOR
 {
     uint16_t timer;
-    bool level;
     bool previousLevel;
 } SENSOR;
 
@@ -309,9 +308,8 @@ void init_sensors()
     {
         // Recarrega o timer.
         sensors[id].timer = DEBOUNCE_TIMER_RELOAD_VALUE;
-        // Inicializa os estados.
-        sensors[id].level = get_level_from_sensor_mask(id);
-        sensors[id].previousLevel = !sensors[id].level;
+        // Inicializa o estado anterior.
+        sensors[id].previousLevel = !get_level_from_sensor_mask(id);;
     }
 }
 
@@ -468,13 +466,14 @@ void sensor_task()
     // Percorre o buffer inteiro.
     for (uint8_t id = 0; id < NUM_SENSORS; ++id)
     {
+        // Captura o nível atual.
+        bool level = get_level_from_sensor_mask(id);
+
+        // Referencia o sensor.
         SENSOR &thisSensor = sensors[id];
 
-        // Atualiza o nível atual.
-        thisSensor.level = get_level_from_sensor_mask(id);
-
         // Verifica se houve mudança do nível desde a última execução da tarefa.
-        if (thisSensor.level != thisSensor.previousLevel)
+        if (level != thisSensor.previousLevel)
         {
             // Houve mudança do nível do sensor.
             ////////////////////////////////////
@@ -483,7 +482,7 @@ void sensor_task()
             thisSensor.timer = DEBOUNCE_TIMER_RELOAD_VALUE;
 
             // Atualiza o estado anterior.
-            thisSensor.previousLevel = thisSensor.level;
+            thisSensor.previousLevel = level;
         }
         else
         {
@@ -503,7 +502,7 @@ void sensor_task()
                     /////////////////
 
                     // Executa a função de callback conforme o nível.
-                    if (thisSensor.level)
+                    if (level)
                     {
                         // Borda de subida.
                         ///////////////////
