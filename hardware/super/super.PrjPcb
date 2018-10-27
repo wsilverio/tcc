@@ -123,6 +123,10 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=OUSVCYRP
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for super\Design Rule Check - super.html
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
