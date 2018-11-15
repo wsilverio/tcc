@@ -1,1 +1,0 @@
-Copiar "texstudio.desktop" > /usr/share/applications/texstudio.desktop
