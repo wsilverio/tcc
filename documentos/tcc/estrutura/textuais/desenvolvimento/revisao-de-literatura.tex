@@ -3,12 +3,12 @@
 \chapter{REVISÃO TEÓRICA}
 \label{chap:fundamentacaoTeorica}
 
-Este capítulo aborda alguns conceitos dos principais componentes e ferramentas utilizadas no projeto.
+Este capítulo aborda alguns conceitos dos principais componentes e ferramentas utilizadas, bem como a especificação do projeto.
 
 \section{PROJETO ARQUITETÔNICO}
 \label{sec:matrizLed}
 
-O projeto arquitetônico definiu a quantidade, o tipo e a disposição de cada objeto. Ao todo, são 128 sensores reflexivos (infravermelho) e 129 \emph{LEDs RGB}, dispostos sob um tampo acrílico de 1m de diâmetro, conforme apresentado na \autoref{fig:tampo}.
+O projeto arquitetônico definiu a quantidade e a disposição de cada objeto. Ao todo, são 128 sensores e 129 pontos de luz, dispostos sob um tampo acrílico de 1m de diâmetro, conforme apresentado na \autoref{fig:tampo}.
 
 \begin{figure}[H]
     \centering
@@ -21,7 +21,7 @@ O projeto arquitetônico definiu a quantidade, o tipo e a disposição de cada o
 A arquiteta também especifica que o funcionamento da mesa deve ser orientado a eventos, provenientes das seções Controle e Matriz (\autoref{fig:mesa-sup}):
 
 \begin{itemize}[noitemsep]
-    \item A mesa sai do modo ocioso ao manter-se a mão sobre a bolinha \emph{Power} por mais de 1s: acende-se o seletor de cores; e a mesa passa a interpretar os demais comandos;
+    \item A mesa sai do modo ocioso ao manter-se a mão sobre a bolinha \emph{Power} por mais de 1s: acende-se o seletor de cores e a mesa passa a interpretar os demais comandos;
     \item Escolhe-se uma cor ao manter-se a mão sobre uma determinada bolinha do seletor de cores por mais de 1s;
     \item Ao passar a mão sobre uma determinada bolinha da seção Matriz, a mesma deve responder com a última cor escolhida;
     \item Uma bolinha da seção Matriz pode ser apagada se a ``cor'' escolhida tiver sido a da bolinha \emph{Power};
@@ -33,7 +33,7 @@ A partir da especificação acerca do funcionamento, notam-se alguns desafios do
 
 \begin{itemize}
     \item A disposição dos objetos e o tamanho da mesa;
-    \item A capacidade de comandar individualmente 129 \emph{LEDs RGB}, ou seja $129 \times 3 = 387$ canais de cor;
+    \item A capacidade de comandar individualmente 129 \emph{LEDs} coloridos (\emph{RGB}), ou seja $129 \times 3 = 387$ canais de cor;
     \item A capacidade de interpretar os níveis lógicos dos 128 sensores;
     \item A capacidade de responder, simultaneamente, aos comandos temporais provenientes de cada sensor.
 \end{itemize}
@@ -52,33 +52,60 @@ A função do sensor é identificar a posição de um objeto, no caso, a mão do
 
 A questão (I) implica que o sensor não deve irradiar ondas eletromagnéticas dentro do espectro visível, que vai de $400nm$ a $700nm$ \cite{fundafisica}. Já a questão (II) implica que a instalação será submetida a locais com diferentes graus de iluminação, portanto os sensores devem ser imunes à variação luminosa do ambiente.
 
-Assim sendo, optou-se pelo sensor óptico reflexivo com saída transistorizada \emph{TCRT5000L}, apresentado na \autoref{fig:sensor} e \autoref{fig:sensorop}, cujas características relevantes para o projeto são apresentadas na \autoref{tab:sensor}.
+Assim sendo, optou-se pelo sensor óptico reflexivo \emph{TCRT5000L}, apresentado na \autoref{fig:sensor}, cujas características relevantes para o projeto são apresentadas na \autoref{tab:sensor}.
 
-\begin{figure}[!htb]
+\begin{figure}[H]
     \centering
-    \caption{Sensor \emph{TCRT5000}}
-    \includegraphics[width=0.2\textwidth]{./dados/figuras/sensor}
-    \fonte{\citeonline{datasheetsensor}}
+    \caption{Sensor TCRT5000}
+    \includegraphics[width=0.24\textwidth]{./dados/figuras/sensor}
+    \fonte{\citeonline{datasheet-sensor}}
     \label{fig:sensor}
-\end{figure}
-
-\begin{figure}[!htb]
-    \centering
-    \caption{Distância de operação do sensor \emph{TCRT5000}}
-    \includegraphics[width=0.45\textwidth]{./dados/figuras/sensor-op}
-    \fonte{\citeonline{datasheetsensor}}
-    \label{fig:sensorop}
 \end{figure}
 
 \input{./dados/tabelas/sensor}
 
-\section{LED}
-\label{sec:led}
-Protocolo
+Trata-se de um sensor reflexivo infravermelho ($\lambda_{P}$), ou seja, opera fora do espectro visível, o que contorna a implicação da questão (I) apresentada anteriormente. Além disso, diferentemente de um sensor passivo, por exemplo um LDR, o TCRT5000 opera irradiando luz e, ademais, também contém filtro óptico embutido, absorvendo somente comprimentos de onda próximas a ($\lambda_{P}$). Essa duas características contornam a implicação da questão (II).
+
+A saída transistorizada permite que o sensor seja interpretado de forma lógica. Sua aplicação (\autoref{fig:sensoraplicacao}) vai desde sensoriamento de \emph{encoders} e posições de ``fim de curso'' até detecção de papéis, cartões, fitas e etc. Foi escolhida a variante ``L'' (\emph{TCRT5000\textbf{L}}) por ser a versão com terminais estendidos.
+
+\begin{figure}[H]
+    \centering
+    \caption{Aplicação do sensor TCRT5000}
+    \includegraphics[width=0.5\textwidth]{./dados/figuras/sensor-op}
+    \fonte{\citeonline{datasheet-sensor}}
+    \label{fig:sensoraplicacao}
+\end{figure}
 
 \section{REGISTRADORES DE DESLOCAMENTO}
 \label{sec:registradores}
-Falar sobre a IC
+
+A necessidade de interpretar individualmente os 128 sensores implica na mesma quantidade de entradas do circuito de processamento. Então, optou-se por lidar com entradas virtuais, através de um barramento serial, por meio de registradores de deslocamento. Dessa forma, com poucas GPIOs, o microcontrolador pode interpretar os níveis lógicos de todos os sensores conectados ao barramento.
+
+Devido sua grande difusão no mercado, o registrador de deslocamento escolhido foi o 74HC165. A \autoref{fig:shift-register} apresenta o diagrama funcional do circuito integrado.
+
+\begin{figure}[H]
+    \centering
+    \caption{Diagrama funcional do 74HC165}
+    \includegraphics[width=0.5\textwidth]{./dados/figuras/shift-register}
+    \fonte{\citeonline{datasheet-shift-register}}
+    \label{fig:shift-register}
+\end{figure}
+
+Trata-se de um registrador de deslocamento com 8 entradas em paralelo ($D_{N}$) e saídas complementares ($Q_{7}$ e $\overline{Q_{7}}$) em serial. Basicamente, seu funcionamento (\autoref{fig:shift-temporal}) constitui-se na captura instantânea do nível lógico de suas entradas (borda de descida da Entrada Assíncrona de Carga Paralela, $\overline{P_{L}}$) e na transmissão desses valores através de deslocamento ordenado ($D_{7} \rightarrow D_{0}$) na saída serial ($Q_{7}$), nos eventos de borda de subida na entrada de \emph{clock} ($C_{P}$).
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Diagrama temporal do 74HC165}
+    \includegraphics[width=0.6\textwidth]{./dados/figuras/shift-temporal}
+    \fonte{\citeonline{datasheet-shift-register}}
+    \label{fig:shift-temporal}
+\end{figure}
+
+\section{PROTOCOLO NRZ}
+\label{sec:nrz}
+
+\section{LED}
+\label{sec:led}
 
 \section{MICROCONTROLADOR}
 \label{sec:microcontrolador}
@@ -86,3 +113,8 @@ Falar sobre a IC
 \section{\emph{FRAMEWORK}}
 \label{sec:framework}
 
+Sming é um \emph{framework} de código aberto, nativo para a família de microcontroladores ESP8266, desenvolvido na linguagem {C++} e com foco em alta eficiência em desempenho e em uso de memória.
+
+Diferente de outros \emph{frameworks} baseados em laço-infinito, a estrutura do Sming é baseada em eventos temporais: as tarefas do usuário são escaladas em uma tabela de tempo. Isso o aproxima de uma das funcionalidades de um Sitema Operacional de Tempo Real, embora não haja, obviamente, um gerenciamento de recursos. Porém, o fato de poder-se escalar as tarefas em uma janela de tempo simplifica a implementação da especificação deste projeto, uma vez que, basicamente, sua funcionalidade também é baseada em eventos temporais, como apresentado no começo do capítulo (\autoref{sec:matrizLed}).
+
+Por tratar-se de uma plataforma de código aberto, este \emph{framework} conta com uma vasta contribuição da comunidade, com uma API de \emph{hardware} robusta e diversas bibliotecas nativas, tais como \emph{bootloader}, sistema de arquivos (SPIFFS), atualização sem fio de \emph{firmware} (OTA) e uma extensa pilha assíncrona de rede (TCP, UDP, \emph{WebSockets} e etc). Esses recursos são úteis para a continuidade do projeto, discutida na \autoref{sec:trabalhosFuturos}.
