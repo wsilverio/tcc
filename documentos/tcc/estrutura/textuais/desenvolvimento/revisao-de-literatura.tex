@@ -101,14 +101,37 @@ Trata-se de um registrador de deslocamento com 8 entradas em paralelo ($D_{N}$) 
     \label{fig:shift-temporal}
 \end{figure}
 
-\section{PROTOCOLO NRZ}
-\label{sec:nrz}
-
 \section{LED}
 \label{sec:led}
 
+\textcolor{red}{Protocolo NRZ}
+
 \section{MICROCONTROLADOR}
 \label{sec:microcontrolador}
+
+O ESP8266 é o microcontrolador de entrada para a família de 32 bits da fabricante chinesa Espressif Systems. Produzido em escala a partir de 2014, essa família ganhou espaço na área de Internet das Coisas por ser um microcontrolador de baixo custo, de baixo consumo e com suporte à rede 802.11 (\emph{Wi-Fi}). A \autoref{tab:espec-microcontrolador} apresenta as principais especificações do microcontrolador e a \autoref{fig:esp-funcional} apresenta seu diagrama funcional. Cabe aqui ressaltar que toda a parte de radio-frequência é implementada por \emph{hardware}, simplificando o desenvolvimento de aplicações com comunicação sem fio.
+
+\input{./dados/tabelas/microcontrolador}
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Diagrama funcional do ESP8266}
+    \includegraphics[width=0.9\textwidth]{./dados/figuras/esp-funcional}
+    \fonte{\citeonline{datasheet-esp}}
+    \label{fig:esp-funcional}
+\end{figure}
+
+Embora a comunicação sem fio não fizesse parte das especificações do projeto arquitetônico original, a equipe concordou com a possibilidade de implementá-la em uma aplicação futura. Esse foi o ponto decisivo para a escolha do ESP8266. Assim, a Mesa de Bolinhas poderá ganhar novas funcionalidades sem haver a necessidade de alteração no \emph{hardware}. Isso será discutido na \autoref{sec:trabalhosFuturos}.
+
+Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser o que dispõe a maior quantidade de \emph{GPIOs} (9 ao todo). A \autoref{fig:esp-12} apresenta sua placa. Convém salientar que este módulo já conta com memória \emph{Flash} (4MB) e antena \emph{microstrip}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Módulo ESP-12}
+    \includegraphics[width=0.4\textwidth]{./dados/figuras/esp-12}
+    \fonte{\cite{book-esp}}
+    \label{fig:esp-12}
+\end{figure}
 
 \section{\emph{FRAMEWORK}}
 \label{sec:framework}
