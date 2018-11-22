@@ -12,7 +12,7 @@ O projeto arquitetônico definiu a quantidade e a disposição de cada objeto. A
 
 \begin{figure}[H]
     \centering
-    \caption{Disposição dos objetos}
+    \caption{Disposição dos objetos na Mesa de Bolinhas}
     \includegraphics[width=0.8\textwidth]{./dados/figuras/tampo}
     \fonte{MITSUKO, 2016}
     \label{fig:tampo}
@@ -101,10 +101,97 @@ Trata-se de um registrador de deslocamento com 8 entradas em paralelo ($D_{N}$) 
     \label{fig:shift-temporal}
 \end{figure}
 
+\section{DEBOUNCE}
+\label{sec:debounce}
+
+Embora o funcionamento do sensor (\autoref{sec:sensor}) seja aparentemente simples - isto é, o transistor vai à saturação ao detectar um objeto; ou o transistor permanece em corte se não houver detecção - podem haver disparos falsos devido à oscilação do sinal durante a interação com a mesa. Essa oscilação é conhecida como \emph{bouncing}: trepidação do nível lógico durante a mudança de estado. A \autoref{fig:switch-bounce} apresenta um exemplo dessa oscilação, quando uma chave física passou do nível lógico alto para o baixo, ao ser pressionada.
+
+\begin{figure}[H]
+    \centering
+    \caption{Oscilação do sinal de uma chave sendo pressionada}
+    \includegraphics[width=0.6\textwidth]{./dados/figuras/bounce}
+    \fonte{\citeonline{switch-debounce}}
+    \label{fig:switch-bounce}
+\end{figure}
+
+Ainda que a Mesa de Bolinhas não conte com botões físicos, o efeito \emph{bouncing} pode vir a ocorrer em razão do limiar de detecção do sensor: o transistor de saída pode ficar operando, ainda que brevemente, no limite da interpretação do seu nível lógico. Para contornar tal situação, assim como nos casos de chaves físicas, será implementado um procedimento de \emph{debouncing}. \citeonline{debounceguide} cita diversas técnicas, desde descarte de tempo, filtros RC (resistor e capacitor), técnicas com \emph{latches} (\autoref{fig:srdebouncer}), entre outros, inclusive via \emph{software}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de circuito de \emph{debounce} com \emph{latches}}
+    \includegraphics[width=0.4\textwidth]{./dados/figuras/srdebouncer}
+    \fonte{\citeonline{debounceguide}}
+    \label{fig:srdebouncer}
+\end{figure}
+
+No caso da Mesa de Bolinhas, não conviria implementar os modelos de  \emph{debouncing} por \emph{hardware}, pois implicaria diretamente no custo do projeto, não só pelo custo dos componentes, mas também pela área de placa ocupada, e também na complexidade do leiaute da PCI. Então, optou-se por implementar uma técnica de contorno via \emph{firmware}. Com isso, não há necessidade de adicionar componentes auxiliares ao circuito dos sensores e registradores de deslocamento. Trata-se de uma técnica baseada em ``histerese temporal'', onde a referência virtual altera-se de estado somente quando o nível de seu respectivo sensor já estiver estabilizado durante N milissegundos. A implementação dessa técnica será desenvolvida no \autoref{chap:metodologia}.
+
+%\section{TECLADO ADC}
+%\label{sec:tecladoAD}
+
 \section{LED}
 \label{sec:led}
 
-\textcolor{red}{Protocolo NRZ}
+Para a matriz de saída, optou-se pelo LED WS2812S (\autoref{fig:ws2812}), um dispositivo RGB em encapsulamento SMD5050, com controlador interno, o WS2811: um \emph{driver} especial para LEDs, com 3 saídas de 8 \emph{bits} de resolução, ou seja, pode-se gerar até 16777216 cores do formato RGB. Esse controlador é muito utilizado em fitas de LEDs endereçáveis (\autoref{fig:strip}), por permitir a conexão de vários controladores em um mesmo barramento serial (protocolo NRZ), podendo-se controlar cada LED individualmente.
+
+O fato de possuir um controlador embutido no próprio encapsulamento implica diretamente sobre o valor do LED, custando um pouco mais que o dobro do valor médio de outros LEDs RGBs mais simples. Apesar disso, o custo acaba sendo compensado pelos benefícios que o \emph{driver} proporciona.
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Vista aproximada do LED WS2812 e seu controlador interno}
+    \includegraphics[width=0.65\textwidth]{./dados/figuras/ws2812}
+    \fonte{\citeonline{adafruit}}
+    \label{fig:ws2812}
+\end{figure}
+
+O modelo do LED já havia sido selecionada durante o Programa de Iniciação Científica que o autor participou, já sendo utilizado no circuito da matriz. No projeto aqui proposto, eles serão utilizados no seletor de cores, discutido no \autoref{chap:metodologia}.
+
+\begin{figure}[!htb]
+    \centering
+    \caption{Fita de LED endereçável utilizando o WS2812}
+    \includegraphics[width=0.5\textwidth]{./dados/figuras/strip}
+    \fonte{\citeonline{adafruit}}
+    \label{fig:strip}
+\end{figure}
+
+
+
+\textcolor{red}{TODO: esquema de cores}
+\textcolor{red}{TODO: consumo}
+\textcolor{red}{TODO: protocolo NRZ}
+
+\section{BAKER CLAMP}
+\label{sec:backerclamp}
+
+Segundo \citeonline{theartofelectronics}, os mesmos efeitos que limitam o desempenho de amplificadores lineares em altas frequências (a combinação de capacitância de junção, capacitância de retorno e capacitância parasita) também impõem limitações de velocidade em circuitos digitais de alta frequência. A \autoref{fig:tjb} apresenta um amplificador ``emissor comum'', que pode atuar como uma chave inversora quando operado em corte e saturação, alimentado por uma fonte de pulsos com tempos de subida e descida extremamente curtos, e a \autoref{fig:curvatjb} apresenta uma curva típica desse tipo de amplificador ao considerar as componentes parasitas. 
+
+\begin{figure}[H]
+    \centering
+    \caption{Representação de uma chave inversora com TJB}
+    \includegraphics[width=0.45\textwidth]{./dados/figuras/tjb}
+    \fonte{\cite{theartofelectronics}}
+    \label{fig:tjb}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \caption{Forma de onda da chave inversora com TJB}
+    \includegraphics[width=0.6\textwidth]{./dados/figuras/curvatjb}
+    \fonte{\cite{theartofelectronics}}
+    \label{fig:curvatjb}
+\end{figure}
+
+Nota-se que, assim que a fonte estabelece o pulso em nível baixo, o transistor leva um certo tempo ($t_r$) para sair da saturação e entrar em corte. Esse comportamento deriva-se do acúmulo de carga ($C_{cb}$) entre o coletor e a base. Dependendo das características físicas do transistor e da aplicação, esse tempo de subida pode vir a prejudicar o desempenho da finalidade do circuito, como é o caso do conversor de nível lógico elaborado para a Mesa de Bolinhas (discutido no \autoref{chap:metodologia}).
+
+Para mitigar tal efeito, \citeonline{theartofelectronics} propõem a inclusão de um diodo de \emph{clamping} (``Baker clamp''), entre a base e o coletor do TJB (\autoref{fig:bakerclamp}). Esse diodo irá desviar a corrente de base quando o transistor estiver se aproximando da saturação e evitará sua saturação, uma vez que a queda direta de tensão do diodo, no caso um diodo Schottky, é menor que a da junção coletor-base. Dessa forma, o TJB pode entrar em corte mais rapidamente, pois o mesmo não chega a entrar no ponto de saturação profunda.
+
+\begin{figure}[H]
+    \centering
+    \caption{Chave inversora com o diodo de ``Baker \emph{clamping}''}
+    \includegraphics[width=0.25\textwidth]{./dados/figuras/bakerclamp}
+    \fonte{\cite{theartofelectronics}}
+    \label{fig:bakerclamp}
+\end{figure}
 
 \section{MICROCONTROLADOR}
 \label{sec:microcontrolador}
@@ -123,7 +210,7 @@ O ESP8266 é o microcontrolador de entrada para a família de 32 bits da fabrica
 
 Embora a comunicação sem fio não fizesse parte das especificações do projeto arquitetônico original, a equipe concordou com a possibilidade de implementá-la em uma aplicação futura. Esse foi o ponto decisivo para a escolha do ESP8266. Assim, a Mesa de Bolinhas poderá ganhar novas funcionalidades sem haver a necessidade de alteração no \emph{hardware}. Isso será discutido na \autoref{sec:trabalhosFuturos}.
 
-Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser o que dispõe a maior quantidade de \emph{GPIOs} (9 ao todo). A \autoref{fig:esp-12} apresenta sua placa. Convém salientar que este módulo já conta com memória \emph{Flash} (4MB) e antena \emph{microstrip}.
+Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser o que dispõe a maior quantidade de GPIOs (9 ao todo). A \autoref{fig:esp-12} apresenta sua placa. Convém salientar que este módulo já conta com memória \emph{Flash} (4MB) e antena \emph{microstrip}.
 
 \begin{figure}[H]
     \centering
@@ -132,6 +219,10 @@ Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser 
     \fonte{\cite{book-esp}}
     \label{fig:esp-12}
 \end{figure}
+
+Por serem compartilhados entre aplicações do usuário e funcionalidades internas, alguns pinos possuem certas particularidades. Os resistores  \emph{pull-up/pull-down} (\autoref{fig:esp-12}) garantem o nível lógico de alguns pinos, porém outros necessitam de uma atenção especial, sobretudo os que definem o modo de funcionamento: operação normal ou modo de gravação, que será discutido no \autoref{chap:metodologia}. A \autoref{tab:pinoutesp} apresenta a pinagem do módulo ESP-12 e também a função interna cada pino.
+
+\input{./dados/tabelas/pinoutesp}
 
 \section{\emph{FRAMEWORK}}
 \label{sec:framework}

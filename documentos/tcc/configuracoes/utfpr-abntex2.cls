@@ -347,7 +347,7 @@
             \abntex@ifnotempty{\imprimirorientador}
             {%
                 & \small\imprimirorientadorRotulo & \imprimirorientador \\
-                & & \small\imprimirinstOrientador \\ & & \\
+                %& & \small\imprimirinstOrientador \\ & & \\
             }
             \abntex@ifnotempty{\imprimircoorientador}
             {%

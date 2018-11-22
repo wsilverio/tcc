@@ -1,0 +1,26 @@
+\begin{table}[H]
+    \centering
+    \caption[Pinagem do módulo ESP-12]{Pinagem do módulo ESP-12.
+    \label{tab:pinoutesp}}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Pino} & \textbf{Descrição} \\ \hline
+$V_{CC}$ & Alimentação 3,3V \\ \hline
+GPIO 13 & Também usada pela SPI \\ \hline
+GPIO 12 & Também usada pela SPI \\ \hline
+GPIO 14 & Também usada pela SPI \\ \hline
+GPIO 16 & Deve ser conectada ao RESET no modo \emph{Deep Sleep} \\ \hline
+$CH_{PD}$ & \emph{Chip enable}: (0) desabilitado; (1) habilitado \\ \hline
+ADC & Entrada do ADC \\ \hline
+RESET & \emph{Reset} externo: (0) - \emph{reset}; (1) - normal \\ \hline
+TXD & Transmissão da UART \\ \hline
+RXD & Recepção da UART \\ \hline
+GPIO 4 & GPIO regular \\ \hline
+GPIO 5 & GPIO regular \\ \hline
+GPIO 0 & Modo \emph{flah} se em nível baixo durante a inicialização \\ \hline
+GPIO 2 & Deve estar em nível alto durante a inicialização \\ \hline
+GPIO 15 & Deve estar em nível baixo durante a inicialização e gravação \\ \hline
+GND & Terra \\ \hline
+\end{tabular}
+    \fonte{\cite{book-esp}}
+\end{table}
