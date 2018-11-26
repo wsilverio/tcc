@@ -1,0 +1,15 @@
+\begin{table}[H]
+    \centering
+    \caption[Tabela verdade do gravador automático]{Tabela verdade do gravador automático.
+    \label{tab:gravador}}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\multicolumn{2}{|c|}{\textbf{Adaptador USB}} & \multicolumn{2}{c|}{\textbf{ESP8266}} \\ \hline
+\textbf{DTR} & \textbf{RST} & \textbf{GPIO 0} & \textbf{Reset} \\ \hline
+0 & 0 & 1 & 1 \\ \hline
+0 & 1 & 0 & 1 \\ \hline
+1 & 0 & 1 & 0 \\ \hline
+1 & 1 & 1 & 1 \\ \hline
+\end{tabular}
+    \fonte{(O AUTOR, 2018)}
+\end{table}

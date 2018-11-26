@@ -5,7 +5,7 @@
 
 \textcolor{red}{TODO: intro}
 
-Este capítulo aborda o desenvolvimento do projeto.
+Este capítulo aborda o desenvolvimento do \emph{hardware} do projeto, 
 
 \section{CONCEPÇÃO DO PROJETO}
 \label{sec:concepcao}
@@ -38,9 +38,9 @@ As subdivisões têm funções bem definidas, apresentadas logo abaixo, e serão
     \item \textbf{Controlador:} processa todos os LEDs e sensores da mesa. Contém também os LEDs e os sensores do seletor de cores, a parte de processamento, os conversores de nível lógico e os periféricos de gravação e depuração.
 \end{itemize}
 
-\textcolor{red}{TODO: especificações, tensão}
+%\textcolor{red}{TODO: especificações, tensão}
 
-\textcolor{red}{TODO: software}
+%\textcolor{red}{TODO: software}
 
 \section{PROJETO DA MATRIZ}
 \label{sec:matriz}
@@ -87,7 +87,7 @@ Todos os conceitos propostos foram validados e as 47 placas que compõem a matri
     \label{fig:placa3}
 \end{figure}
 
-\textcolor{red}{TODO: o ``resultado da mesa fica nesta seção mesmo?''}
+\textcolor{red}{TODO: o ``resultado da matriz fica nesta seção mesmo?''}
 
 \section{PROJETO DA INTERFACE}
 \label{sec:interface}
@@ -299,25 +299,83 @@ Quando aplicado 5V (1-lógico) em ``CONN\_ESP\_DIN'' (entrada de dados do conect
 \subsection{GRAVADOR}
 \label{subsec:gravador}
 
-\textcolor{red}{TODO: comunicação serial}
+O microcontrolador ESP8266 possui alguns modos de operação, entre eles, o modo normal e o de gravação via UART, que são determinados pelo estado de alguns pinos durante a inicialização do sistema (\emph{boot}), como brevemente introduzido na \autoref{sec:microcontrolador}.
 
-\textcolor{red}{TODO: botões}
+Além de fornecer uma via para a comunicação serial com um adaptador USB, o circuito apresentado a seguir (\autoref{fig:circuito-gravador}) também tem a função de forçar o microcontrolador a entrar em modo de gravação conforme os comandos de \emph{``reset''} e \emph{``data terminal ready''} (DTR) do adaptador. Dessa forma, não há a necessidade de uma operação manual para determinar os estados dos pinos de programação para carregar um novo \emph{firmware} no microcontrolador. Para tal, basta somente que o adaptador disponha de uma linha DTR, como o exemplo apresentado na \autoref{fig:ftdi}. Cabe aqui ressaltar que, assim como citado na \autoref{subsec:alimentacao}, todo o circuito de 3,3V pode ser alimentado diretamente pelo adaptador USB (desde que seja 3,3V), sem a necessidade de uma fonte externa. Isso simplifica o desenvolvimento e a depuração do projeto, quando não houver a necessidade de testar o restante do circuito.
 
-\textcolor{red}{TODO: tabela função XOR? que substitui os botões}
+\begin{figure}[H]
+    \centering
+    \caption{Exemplo de adaptador serial-USB com linha DTR}
+    \includegraphics[width=0.3\textwidth]{./dados/figuras/ftdi}
+    \fonte{\citeonline{adaptador-usb}}
+    \label{fig:ftdi}
+\end{figure}
 
-\textcolor{red}{TODO: ftdi}
+Sobretudo, para que o microcontrolador entre em modo de gravação, o pino ``GPIO 0'' deve estar em 0-lógico durante a inicialização. Se estiver em 1-lógico durante o \emph{reset}, o ESP8266 inicializa em modo normal, executando o programa armazenado na memória interna.
 
-\subsection{TECLADO ADC}
-\label{subsec:tecladoadc}
+\begin{figure}[H]
+    \centering
+    \caption{Esquemático do circuito de gravação}
+    \includegraphics[width=0.8\textwidth]{./dados/figuras/gravacao}
+    \fonte{(O AUTOR, 2018)}
+    \label{fig:circuito-gravador}
+\end{figure}
+
+A \autoref{tab:gravador} apresenta os estados dos pinos do microcontrolador em função dos níveis do adaptador USB, através do circuito da \autoref{fig:circuito-gravador}. Nota-se que a condição de gravação (GPIO 0 = zero lógico) é dada somente \textcolor{red}{TODO: .......... ????}.
+
+\input{./dados/tabelas/gravacao}
+
+Contudo, se o desenvolvedor não dispor de um adaptador USB com sinal DTR, ainda há a possibilidade de pôr o microcontrolador em modo de gravação de maneira manual, através dos botões ``S1'' e ``S2''.
+
+\subsection{TECLADO AD}
+\label{subsec:tecladoad}
+
+O ``Teclado AD'' (ou teclado analógico) tem a função de servir como interface durante as etapas de desenvolvimento/depuração. Com apenas um único pino do microcontrolador é possível ler diversas teclas, desde que seja um pino com função Conversor Analógico-Digital. A \autoref{fig:tecladoad} apresenta o esquemático do circuito.
+
+\begin{figure}[H]
+    \centering
+    \caption{Esquemático do circuito do teclado analógico}
+    \includegraphics[width=0.5\textwidth]{./dados/figuras/tecladoad}
+    \fonte{(O AUTOR, 2018)}
+    \label{fig:tecladoad}
+\end{figure}
+
+Seu funcionamento se dá por meio da combinação de uma cadeia de resistores. Através da Lei de Ohm, pelas combinações série-paralelo, é possível estimar qual botão está sendo pressionado, limitando-se a um botão por vez.
+
+A \autoref{tab:tecladoad} apresenta os valores de tensão e as unidades estimadas pelo conversor interno do microcontrolador, um ADC de 10 \emph{bits} de resolução, com faixa de operação de 0V a 1V.
+
+\input{./dados/tabelas/tecladoad}
 
 \subsection{PROJETO DA PCI DO CONTROLADOR}
 \label{subsec:pcicontrol}
 
-\textcolor{red}{TODO: 2D PCI controlador}
+Em sua totalidade, não há um padrão de repetição de funcionalidades como nos outros setores (Interface e Matriz), então a placa do Controlador não foi projetada de maneira modular, senão em placa única que, inclusive, resultou em uma PCI relativamente grande (), a ser discutida na \autoref{chap:}.A \autoref{fig:controlador-top} apresenta a visão da face superior do modelo 3D da placa, e a \autoref{fig:controlador-bottom} apresenta a visão da face inferior.
 
-\textcolor{red}{TODO: NET TIE}
+\begin{figure}[H]
+    \centering
+    \caption{Visão superior do modelo 3D da placa do Controlador}
+    \includegraphics[width=1.0\textwidth]{./dados/figuras/controlador-top}
+    \fonte{(O AUTOR, 2018)}
+    \label{fig:controlador-top}
+\end{figure}
 
-\textcolor{red}{TODO: 3D PCI controlador}
+\begin{figure}[H]
+    \centering
+    \caption{Visão inferior do modelo 3D da placa do Controlador}
+    \includegraphics[width=1.0\textwidth]{./dados/figuras/controlador-bottom}
+    \fonte{(O AUTOR, 2018)}
+    \label{fig:controlador-bottom}
+\end{figure}
+
+Assim como nos projetos anteriores, a placa do Controlador também foi projetada utilizando-se de técnicas para evitar a reflexão dos sinais, separação das alimentações dos circuitos de potência e utilização de conectores que impedem inversão de polaridade. Além disso, com exceção dos sensores e conectores, todos os componentes são de montagem em superfície (SMD), como apresentado na \autoref{fig:controlador-smd}.
+
+\begin{figure}[H]
+    \centering
+    \caption{Visão inferior do modelo 3D da placa do Controlador - detalhe para os componentes SMDs}
+    \includegraphics[width=0.7\textwidth]{./dados/figuras/controlador-smd}
+    \fonte{(O AUTOR, 2018)}
+    \label{fig:controlador-smd}
+\end{figure}
 
 \section{PROJETO DO \emph{FIRMWARE}}
 \label{sec:firmware}
