@@ -3,19 +3,20 @@
 \chapter{CONCLUSÃO}
 \label{chap:conclusao}
 
-Parte final do texto, na qual se apresentam as conclusões do trabalho acadêmico. É importante fazer uma análise crítica do trabalho, destacando os principais resultados e as contribuições do trabalho para a área de pesquisa.
+O principal objetivo deste trabalho era apresentar um protótipo funcional para a Mesa de Bolinhas. Embora não tenha sido atingido em sua totalidade, o projeto se encontra em uma etapa avançada. Entre os objetivos específicos apresentados, foram finalizadas as etapas do mapeamento da matriz de saída (LEDs), do mapeamento da matriz de entrada (sensores da matriz e do seletor de cores), do leiaute da placa de interface, do leiaute da placa de controle, do \emph{firmware} gerenciador da matriz de entrada, da montagem das placas de interface, sendo ainda pendente a montagem da placa de controle, a integração com a mecânica e a finalização das rotinas da máquina de estados finita.
+
+Para o autor, o projeto serviu de grande aprendizado de técnicas e ferramentas não abordadas durante a graduação, tais como: projeto de leiaute de placa de circuito impresso a nível intermediário, programação do microcontrolador ESP8266, programação orientada a eventos temporais, implementação de fila (FIFO), implementação de técnica de \emph{debouncing} para múltiplas entradas, implementação de máquina de estados finita em \emph{software}, entre outras.
 
 \section{TRABALHOS FUTUROS}
 \label{sec:trabalhosFuturos}
 
-Também deve indicar, se possível e/ou conveniente, como o trabalho pode ser estendido ou aprimorado.
+Para que o projeto continue avançando, pretende-se, além de finalizar a montagem proposta neste trabalho, implementar novas funcionalidades, funções estas que não necessitam de alteração de \emph{hardware}, visto que já foram consideradas no projeto dos circuitos:
 
-\textcolor{red}{TODO: finalização da mesa}
-\textcolor{red}{TODO: documentação}
-\textcolor{red}{TODO: WIFI}
-\textcolor{red}{TODO: fita de LED}
+\begin{itemize}
+    \item Gravação OTA (\emph{over-the-air}): com essa funcionalidade, o microcontrolador poderá ser reprogramado sem a necessidade do adaptador USB: a gravação será via Wi-Fi, dispensando a remoção do tampo acrílico todas as vezes que uma atualização for necessária;
+    \item Protocolo ArtNet: permitirá que a mesa seja comandada remotamente através de programas de mapeamento de luz (via Wi-Fi, sobre a camada de UDP). Assim, a matriz poderá servir como tela para animações e exibição de textos e imagens;
+    \item Fita de LED externa: foi implementado em \emph{hardware} uma saída para fitas de LED com suporte ao protocolo NRZ. Dessa forma, a mesa também poderá controlar outras instalações, sem a necessidade de um circuito dedicado
+    
+\end{itemize}
 
-\section{CONSIDERAÇÕES FINAIS}
-\label{sec:consideracoesFinais}
-
-Encerramento do trabalho acadêmico.
+Além disso, o \emph{hardware} e o código serão documentados e disponibilizados à comunidade, para que o projeto possa ser estudado, replicado e modificado conforme suas necessidades.

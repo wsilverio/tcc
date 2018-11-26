@@ -3,9 +3,7 @@
 \chapter{DESENVOLVIMENTO}
 \label{chap:metodologia}
 
-\textcolor{red}{TODO: intro}
-
-Este capítulo aborda o desenvolvimento do \emph{hardware} do projeto, 
+Este capítulo aborda o desenvolvimento do \emph{hardware} do projeto, desde a concepção do projeto eletrônico, levantamento do circuito elétrico, até as técnicas de roteamento das placas de circuito impresso.
 
 \section{CONCEPÇÃO DO PROJETO}
 \label{sec:concepcao}
@@ -59,7 +57,7 @@ Em geral, as empresas fabricantes de placas de circuito impresso consideram cada
     \label{fig:placas-matriz-colunas}
 \end{figure}
 
-Uma vez definido que a matriz seria composta por placas com 2 ou 3 bolinhas, iniciaram-se os testes de conceito com o protótipo, apresentado na \autoref{fig:matriz-prototipo}. Nesses ensaios, foram testados os conceitos de endereçamento do LED WS2812, a leitura do nível lógico dos sensores através dos registradores de deslocamento e também o modo de conexão entre as placas.
+Uma vez definido que a matriz seria composta por placas com 2 ou 3 bolinhas, iniciaram-se os testes de conceito com o protótipo artesanal, apresentado na \autoref{fig:matriz-prototipo}, produzido no Laboratório de Corrosão de Placas do Departamento de Engenharia Elétrica da UFPR. Nesses ensaios, foram testados os conceitos de endereçamento do LED WS2812, a leitura do nível lógico dos sensores através dos registradores de deslocamento e também o modo de conexão entre as placas.
 
 \begin{figure}[H]
     \centering
@@ -86,8 +84,6 @@ Todos os conceitos propostos foram validados e as 47 placas que compõem a matri
     \fonte{(O AUTOR, 2017)}
     \label{fig:placa3}
 \end{figure}
-
-\textcolor{red}{TODO: o ``resultado da matriz fica nesta seção mesmo?''}
 
 \section{PROJETO DA INTERFACE}
 \label{sec:interface}
@@ -321,11 +317,9 @@ Sobretudo, para que o microcontrolador entre em modo de gravação, o pino ``GPI
     \label{fig:circuito-gravador}
 \end{figure}
 
-A \autoref{tab:gravador} apresenta os estados dos pinos do microcontrolador em função dos níveis do adaptador USB, através do circuito da \autoref{fig:circuito-gravador}. Nota-se que a condição de gravação (GPIO 0 = zero lógico) é dada somente \textcolor{red}{TODO: .......... ????}.
+A \autoref{tab:gravador} apresenta os estados dos pinos do microcontrolador em função dos níveis do adaptador USB, através do circuito da \autoref{fig:circuito-gravador}. Contudo, se o desenvolvedor não dispor de um adaptador USB com sinal DTR, ainda há a possibilidade de pôr o microcontrolador em modo de gravação de maneira manual, através dos botões ``S1'' e ``S2''.
 
 \input{./dados/tabelas/gravacao}
-
-Contudo, se o desenvolvedor não dispor de um adaptador USB com sinal DTR, ainda há a possibilidade de pôr o microcontrolador em modo de gravação de maneira manual, através dos botões ``S1'' e ``S2''.
 
 \subsection{TECLADO AD}
 \label{subsec:tecladoad}
@@ -349,7 +343,7 @@ A \autoref{tab:tecladoad} apresenta os valores de tensão e as unidades estimada
 \subsection{PROJETO DA PCI DO CONTROLADOR}
 \label{subsec:pcicontrol}
 
-Em sua totalidade, não há um padrão de repetição de funcionalidades como nos outros setores (Interface e Matriz), então a placa do Controlador não foi projetada de maneira modular, senão em placa única que, inclusive, resultou em uma PCI relativamente grande (), a ser discutida na \autoref{chap:}.A \autoref{fig:controlador-top} apresenta a visão da face superior do modelo 3D da placa, e a \autoref{fig:controlador-bottom} apresenta a visão da face inferior.
+Em sua totalidade, não há um padrão de repetição de funcionalidades como nos outros setores (Interface e Matriz), então a placa do Controlador não foi projetada de maneira modular, senão em placa única que, inclusive, resultou em uma PCI relativamente grande (), a ser discutida na \autoref{chap:analise-resultados}.A \autoref{fig:controlador-top} apresenta a visão da face superior do modelo 3D da placa, e a \autoref{fig:controlador-bottom} apresenta a visão da face inferior.
 
 \begin{figure}[H]
     \centering
@@ -377,14 +371,14 @@ Assim como nos projetos anteriores, a placa do Controlador também foi projetada
     \label{fig:controlador-smd}
 \end{figure}
 
-\section{PROJETO DO \emph{FIRMWARE}}
-\label{sec:firmware}
+%\section{PROJETO DO \emph{FIRMWARE}}
+%\label{sec:firmware}
 
-\subsection{\emph{DEBOUNCE}}
-\label{subsec:debounce}
+%\subsection{\emph{DEBOUNCE}}
+%\label{subsec:debounce}
 
-\subsection{MÁQUINA DE ESTADOS FINITA}
-\label{subsec:fsm}
+%\subsection{MÁQUINA DE ESTADOS FINITA}
+%\label{subsec:fsm}
 
-\textcolor{red}{TODO: citar a referencia gang  of 4}
+%\textcolor{red}{TODO: citar a referencia gang  of 4}
 
