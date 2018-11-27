@@ -8,7 +8,7 @@ Este capítulo aborda alguns conceitos dos principais componentes e ferramentas 
 \section{PROJETO ARQUITETÔNICO}
 \label{sec:matrizLed}
 
-O projeto arquitetônico definiu a quantidade e a disposição de cada objeto. Ao todo, são 128 sensores e 129 pontos de luz, dispostos sob um tampo acrílico de 1m de diâmetro, conforme apresentado na \autoref{fig:tampo}.
+O projeto arquitetônico definiu a quantidade e a disposição de cada objeto. Ao todo, são 128 sensores e 129 pontos de luz, dispostos sob um tampo acrílico de {1 m} de diâmetro, conforme apresentado na \autoref{fig:tampo}.
 
 \begin{figure}[H]
     \centering
@@ -21,12 +21,12 @@ O projeto arquitetônico definiu a quantidade e a disposição de cada objeto. A
 A arquiteta também especifica que o funcionamento da mesa deve ser orientado a eventos, provenientes das seções Controle e Matriz (\autoref{fig:mesa-sup}):
 
 \begin{itemize}[noitemsep]
-    \item A mesa sai do modo ocioso ao manter-se a mão sobre a bolinha \emph{Power} por mais de 1s: acende-se o seletor de cores e a mesa passa a interpretar os demais comandos;
-    \item Escolhe-se uma cor ao manter-se a mão sobre uma determinada bolinha do seletor de cores por mais de 1s;
+    \item A mesa sai do modo ocioso ao manter-se a mão sobre a bolinha \emph{Power} por mais de {1 s}: acende-se o seletor de cores e a mesa passa a interpretar os demais comandos;
+    \item Escolhe-se uma cor ao manter-se a mão sobre uma determinada bolinha do seletor de cores por mais de {1 s};
     \item Ao passar a mão sobre uma determinada bolinha da seção Matriz, a mesma deve responder com a última cor escolhida;
     \item Uma bolinha da seção Matriz pode ser apagada se a ``cor'' escolhida tiver sido a da bolinha \emph{Power};
-    \item Ao manter-se a mão por mais de 3s sobre a bolinha \emph{Power}, todas as bolinhas da seção Matriz devem ser apagadas; e
-    \item Ao manter-se a mão por mais de 5s sobre a bolinha \emph{Power}, a mesa entra em modo ocioso: as bolinhas do seletor de cores são apagadas e a mesa passa a ignorar os comandos sobre a Matriz.
+    \item Ao manter-se a mão por mais de {3 s} sobre a bolinha \emph{Power}, todas as bolinhas da seção Matriz devem ser apagadas; e
+    \item Ao manter-se a mão por mais de {5 s} sobre a bolinha \emph{Power}, a mesa entra em modo ocioso: as bolinhas do seletor de cores são apagadas e a mesa passa a ignorar os comandos sobre a Matriz.
 \end{itemize}
 
 A partir da especificação acerca do funcionamento, notam-se alguns desafios do ponto de vista do eletrônico/lógico, tais como:
@@ -38,7 +38,7 @@ A partir da especificação acerca do funcionamento, notam-se alguns desafios do
     \item A capacidade de responder, simultaneamente, aos comandos temporais provenientes de cada sensor.
 \end{itemize}
 
-A seleção dos componentes e das ferramentas foi baseada na especificação e nos desafios acima citados, e será discutida a seguir nas demais seções deste capítulo.
+A seleção dos componentes e das ferramentas foi baseada na especificação e nos desafios acima citados e será discutida a seguir nas demais seções deste capítulo.
 
 \section{SENSOR}
 \label{sec:sensor}
@@ -47,10 +47,10 @@ A função do sensor é identificar a posição de um objeto, no caso, a mão do
 
 \begin{enumerate}[label=\Roman*.]
     \item O elemento principal do projeto é a luz que flui da bolinha de \emph{ping-pong};
-    \item A exposição pode ser levada a diversos lugares e ser instalada nos mais variados ambientes, como museus, escolas, saguões e etc.
+    \item A exposição pode ser levada a diversos lugares e ser instalada nos mais variados ambientes, como museus, escolas, saguões, etc.
 \end{enumerate}
 
-A questão (I) implica que o sensor não deve irradiar ondas eletromagnéticas dentro do espectro visível, que vai de $400nm$ a $700nm$ \cite{fundafisica}. Já a questão (II) implica que a instalação será submetida a locais com diferentes graus de iluminação, portanto os sensores devem ser imunes à variação luminosa do ambiente.
+A questão (I) implica que o sensor não deve irradiar ondas eletromagnéticas dentro do espectro visível, que vai de {400 nm} a {700 nm} \cite{fundafisica}. Já a questão (II) implica que a instalação será submetida a locais com diferentes graus de iluminação, portanto os sensores devem ser imunes à variação luminosa do ambiente.
 
 Assim sendo, optou-se pelo sensor óptico reflexivo \emph{TCRT5000L}, apresentado na \autoref{fig:sensor}, cujas características relevantes para o projeto são apresentadas na \autoref{tab:sensor}.
 
@@ -66,7 +66,7 @@ Assim sendo, optou-se pelo sensor óptico reflexivo \emph{TCRT5000L}, apresentad
 
 Trata-se de um sensor reflexivo infravermelho ($\lambda_{P}$), ou seja, opera fora do espectro visível, o que contorna a implicação da questão (I) apresentada anteriormente. Além disso, diferentemente de um sensor passivo, por exemplo um LDR, o TCRT5000 opera irradiando luz e, ademais, também contém filtro óptico embutido, absorvendo somente comprimentos de onda próximas a ($\lambda_{P}$). Essa duas características contornam a implicação da questão (II).
 
-A saída transistorizada permite que o sensor seja interpretado de forma lógica. Sua aplicação (\autoref{fig:sensoraplicacao}) vai desde sensoriamento de \emph{encoders} e posições de ``fim de curso'' até detecção de papéis, cartões, fitas e etc. Foi escolhida a variante ``L'' (\emph{TCRT5000\textbf{L}}) por ser a versão com terminais estendidos.
+A saída transistorizada permite que o sensor seja interpretado de forma lógica. Sua aplicação (\autoref{fig:sensoraplicacao}) vai desde sensoriamento de \emph{encoders} e posições de ``fim de curso'' até detecção de papéis, cartões, fitas, etc. Foi escolhida a variante ``L'' (\emph{TCRT5000\textbf{L}}) por ser a versão com terminais estendidos.
 
 \begin{figure}[H]
     \centering
@@ -179,7 +179,7 @@ O ESP8266 é o microcontrolador de entrada para a família de 32 bits da fabrica
 
 Embora a comunicação sem fio não fizesse parte das especificações do projeto arquitetônico original, a equipe concordou com a possibilidade de implementá-la em uma aplicação futura. Esse foi o ponto decisivo para a escolha do ESP8266. Assim, a Mesa de Bolinhas poderá ganhar novas funcionalidades sem haver a necessidade de alteração no \emph{hardware}. Isso será discutido na \autoref{sec:trabalhosFuturos}.
 
-Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser o que dispõe a maior quantidade de GPIOs (9 ao todo). A \autoref{fig:esp-12} apresenta sua placa. Convém salientar que este módulo já conta com memória \emph{Flash} (4MB) e antena \emph{microstrip}.
+Entre os diversos módulos que incluem o ESP8266, optou-se pelo ESP-12, por ser o que dispõe a maior quantidade de GPIOs (9 ao todo). A \autoref{fig:esp-12} apresenta sua placa. Convém salientar que este módulo já conta com memória \emph{Flash} (4\ MB) e antena \emph{microstrip}.
 
 \begin{figure}[H]
     \centering
@@ -200,7 +200,7 @@ Sming é um \emph{framework} de código aberto, nativo para a família de microc
 
 Diferente de outros \emph{frameworks} baseados em laço-infinito, a estrutura do Sming é baseada em eventos temporais: as tarefas do usuário são escaladas em uma tabela de tempo. Isso o aproxima de uma das funcionalidades de um Sitema Operacional de Tempo Real, embora não haja, obviamente, um gerenciamento de recursos. Porém, o fato de poder-se escalar as tarefas em uma janela de tempo simplifica a implementação da especificação deste projeto, uma vez que, basicamente, sua funcionalidade também é baseada em eventos temporais, como apresentado no começo do capítulo (\autoref{sec:matrizLed}).
 
-Por tratar-se de uma plataforma de código aberto, este \emph{framework} conta com uma vasta contribuição da comunidade, com uma API de \emph{hardware} robusta e diversas bibliotecas nativas, tais como \emph{bootloader}, sistema de arquivos (SPIFFS), atualização sem fio de \emph{firmware} (OTA) e uma extensa pilha assíncrona de rede (TCP, UDP, \emph{WebSockets} e etc). Esses recursos são úteis para a continuidade do projeto, discutida na \autoref{sec:trabalhosFuturos}.
+Por tratar-se de uma plataforma de código aberto, este \emph{framework} conta com uma vasta contribuição da comunidade, com uma API de \emph{hardware} robusta e diversas bibliotecas nativas, tais como \emph{bootloader}, sistema de arquivos (SPIFFS), atualização sem fio de \emph{firmware} (OTA) e uma extensa pilha assíncrona de rede (TCP, UDP, \emph{WebSockets}, etc). Esses recursos são úteis para a continuidade do projeto, discutida na \autoref{sec:trabalhosFuturos}.
 
 %\section{FIFO}
 %\label{sec:fifo}

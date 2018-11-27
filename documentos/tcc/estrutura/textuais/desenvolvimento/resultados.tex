@@ -15,7 +15,7 @@ A \autoref{fig:pci-interface} apresenta a placa de circuito impresso da Interfac
     \label{fig:pci-interface}
 \end{figure}
 
-Com relação à placa de circuito impresso da seção de controle, após contatar mais de 20 empresas, somente cerca de 3 delas teriam capacidade de produzir PCIs com tamanhas dimensões (500mm x 90mm), sendo que os valores ultrapassavam os R\$1000,00. Então, decidiu-se reprojetar a placa do Controlador, na verdade, separá-la em outras 3 PCIs, como apresentado na \autoref{fig:controlador-corte}. Dessa forma, as PCIs teriam as dimensões adequadas para produção na maioria das empresas. Ademais, as placas seriam conectadas por meio de resistores de $0\Omega$ (encapsulamento SMD 1206), dispensando o uso de fios. 
+Com relação à placa de circuito impresso da seção de controle, após contatar mais de 20 empresas, somente cerca de 3 delas teriam capacidade de produzir PCIs com tamanhas dimensões (500 mm x 90 mm), sendo que os valores ultrapassavam os R\$1000,00. Então, decidiu-se reprojetar a placa do Controlador, na verdade, separá-la em outras 3 PCIs, como apresentado na \autoref{fig:controlador-corte}. Dessa forma, as PCIs teriam as dimensões adequadas para produção na maioria das empresas. Ademais, as placas seriam conectadas por meio de resistores de $0\Omega$ (encapsulamento SMD 1206), dispensando o uso de fios. 
 
 \begin{figure}[H]
     \centering
@@ -62,5 +62,3 @@ Visto a carência de várias técnicas de roteamento do \emph{software} de leiau
 \end{figure}
 
 Em função da placa de controle não ter sido finalizada dentro do período do cronograma, não foi possível testar o \emph{firmware} desenvolvido, que já estava em uma etapa avançada, porém ainda não havia sido testado, uma vez que dependia dos periféricos do Controlador. O código das implementações se encontram na seção de Apêndices, sendo: inicialização dos periféricos internos, inicialização dos periféricos externos, técnica de \emph{debounce} e fila de eventos. Faltando apenas a máquina de estados finita dos LEDs.
-
-\textcolor{red}{TODO: apêndices}
